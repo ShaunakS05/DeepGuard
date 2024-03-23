@@ -3,7 +3,11 @@ import json
 import predictionguard as pg
 # pip install predictionguard
 
-os.environ['PREDICTIONGUARD_TOKEN'] = "q1VuOjnffJ3NO2oFN8Q9m8vghYc84ld13jaqdF7E"
+#thekey = os.environ.get('INTEL_KEY')
+
+#print(thekey)
+os.environ["PREDICTIONGUARD_TOKEN"] = "q1VuOjnffJ3NO2oFN8Q9m8vghYc84ld13jaqdF7E"
+#os.environ['PREDICTIONGUARD_TOKEN'] = thekey
 
 # Define our prompt.
 
