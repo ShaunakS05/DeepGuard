@@ -13,14 +13,15 @@ import Button from 'react-bootstrap/Button';
 
 function App() {
 
-  const endpoint_Visual = "http://localhost:5000/check-visual-deepfake"
-  const endpoint_Audio = "http://localhost:5000/check-audio-deepfake"
-  const endpoint_Text = "http://localhost:5000/check-text-deepfake" 
+  const endpoint_Visual = "http://localhost:3000/check-visual-deepfake"
+  const endpoint_Audio = "http://localhost:3000/check-audio-deepfake"
+  const endpoint_Text = "http://localhost:3000/check-text-deepfake" 
 
   const[file, setFile] = useState(null);
+  const[visVal, setVisVal] = useState(null);
 
   const handleFile = (event) => {
-    setFile(event.target.file[0])
+    setFile(event.target.files[0])
   }
   const handleDetect = async (event) => {
     event.preventDefault();
@@ -33,7 +34,7 @@ function App() {
           method: "POST",
           body: formData
         });
-
+        setVisVal(reponse);
         if(reponse.ok) {
           console.log("File Good");
         }
@@ -124,12 +125,13 @@ function App() {
     <div>
             <h1>Upload File</h1>
             <form>
-                <input type="file"></input>
-                <button type="submit" onChange={handleFile}>
+                <input type="file" onChange={handleFile}></input>
+                <button type="submit">
                         Detect
                 </button>
             </form>
             {file && <p>{file.name}</p>}
+            {visVal && <p>{visVal}</p>}
         </div>
 
     <textarea
