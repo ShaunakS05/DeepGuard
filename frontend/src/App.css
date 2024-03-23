@@ -1,38 +1,128 @@
-.App {
+.p{font-size: 7rem;
   text-align: center;
+  margin: 0;
+  line-height: 0;
+  font-size: 7rem;
+  color: green;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App {
+  overflow-x: hidden;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.buttonPlace{
+  position: absolute;
+  top: 90%;
+  left: 10%
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.text-wrapper{
+  color: blue;
+  margin: 0;
+  line-height: 0;
+
+}
+.one
+{
+  position: absolute;
+  top:400px;
+}
+.two{
+
+  position: absolute;
+  top: 400px;
+}
+.three {
+  position: absolute;
+  top: 400px;
+}
+.title{
+  position: relative;
+  margin-right: 80%;
+  font-size: 80pt;
+  top: 10%;
+  line-height: normal; 
+  font-weight: bold;
+  margin-left: 10%;
+
+}
+.container {
+  margin-left: 20px;
+  font-size: 70pt;
+  margin-left: 10%;
+
+}
+.coolBlueButton {
+  padding: 10px 20px;
+  background-color: #007bff; /* Bootstrap primary blue for example */
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  outline: none; /* Removes the outline to make it look cleaner */
 }
 
-.App-link {
-  color: #61dafb;
+.coolBlueButton:hover, .coolBlueButton:focus {
+  background-color: #0056b3; /* A darker shade of blue on hover/focus */
+  transform: scale(1.05); /* Slightly increase the button size */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.coolBlueButton:active {
+  background-color: #004085; /* Even darker blue when the button is clicked */
+  transform: scale(1); /* Return to original size when clicked */
 }
+
+/* CSS for a cool, blue-themed text input field */
+.cool-blue-input {
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #ffffff; /* White text color */
+  background: linear-gradient(145deg, #007bff, #0056b3); /* Blue gradient background */
+  border: none; /* No border */
+  border-radius: 8px; /* Rounded corners */
+  outline: none; /* Removes the default focus outline */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: transform 0.2s, box-shadow 0.2s; /* Smooth transition for interactions */
+}
+/* CSS for a cool, blue-themed, multi-line text input field */
+.cool-blue-textarea {
+  width: 100%; /* Adjusts to the width of its container */
+  min-height: 100px; /* Minimum height */
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #007bff; /* A nice shade of blue */
+  border-radius: 5px;
+  outline: none; /* Removes the default focus outline */
+  background-color: #f0f8ff; /* A very light blue background */
+  color: #003366; /* Darker blue for text */
+  resize: vertical; /* Allows resizing only vertically */
+  box-sizing: border-box; /* Ensures padding does not affect overall dimensions */
+  transition: all 0.3s ease-in-out; /* Smooth transition for all changes */
+}
+
+.cool-blue-textarea:focus {
+  border-color: #0056b3; /* A darker shade of blue for focus */
+  box-shadow: 0 0 8px #007bff; /* Subtle shadow to highlight focus */
+}
+
+
+.cool-blue-input::placeholder { /* Placeholder style */
+  color: #e1e1e1;
+}
+
+.cool-blue-input:focus {
+  transform: scale(1.05); /* Slightly increase size on focus */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* More pronounced shadow on focus */
+}
+
+/* Enable resizing for the input field */
+.cool-blue-input {
+  resize: horizontal;
+  overflow: auto;
+  min-width: 150px; /* Minimum width */
+  max-width: 100%; /* Maximum width to not overflow its container */
+}
+
+
