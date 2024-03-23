@@ -13,10 +13,11 @@ import Button from 'react-bootstrap/Button';
 
 function App() {
 
-  const endpoint_Visual = "http://localhost:5000/check-visual-deepfake"
+  const endpoint_Visual = "http://127.0.0.1:8000/check-visual-deepfake"
   const endpoint_Audio = "http://localhost:5000/check-audio-deepfake"
   const endpoint_Text = "http://localhost:5000/check-text-deepfake" 
 
+  const[vis, setVis] = useState(null);
   const[file, setFile] = useState(null);
 
   const handleFile = (event) => {
@@ -33,7 +34,7 @@ function App() {
           method: "POST",
           body: formData
         });
-
+        setVis(reponse);
         if(reponse.ok) {
           console.log("File Good");
         }
@@ -130,6 +131,7 @@ function App() {
                 </button>
             </form>
             {file && <p>{file.name}</p>}
+            {vis && <p>{vis}</p>}
         </div>
 
     <textarea
@@ -151,12 +153,12 @@ function App() {
       transform: 'translateY(-50%)', // Centers the box vertically
  }} placeholder="Name of person..." />
 
-  <Button className="coolBlueButton" onClick={handleClick} 
+  <Button className="coolBlueButton" onClick={handleDetect} 
       style={{position: 'absolute',
         left: 'calc(33.33% + 275px)', // Moves the box to the left third and then 50px to the left
         top: '95%', // Adjust as needed,
         width: '260px',
-        transform: 'translateY(-50%)'}}>Try Demo! </Button>
+        transform: 'translateY(-50%)'}}>Detect </Button>
 
 
 
