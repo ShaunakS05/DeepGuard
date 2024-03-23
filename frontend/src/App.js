@@ -18,7 +18,19 @@ function App() {
   const endpoint_Text = "http://localhost:3000/check-text-deepfake" 
 
   const[file, setFile] = useState(null);
-  const[visVal, setVisVal] = useState(null);
+
+  const[useVisual, setVisual] = useState(false);
+  const[useAudio, setAudio] = useState(false);
+  const[useText, setText] = useState(false);
+
+  const[visualData, setVisData] = useState(null);
+  const[audioData, setAudData] = useState(null);
+  const[textData, setTexData] = useState(null);
+
+
+  const [isChecked, setIsChecked] = useState(false);
+
+
 
   const handleFile = (event) => {
     setFile(event.target.files[0])
@@ -28,19 +40,32 @@ function App() {
 
     const formData = new FormData();
     formData.append('file_upload', file);
-
     try {
+      if(useVisual)
+      {
         const reponse = await fetch(endpoint_Visual, {
           method: "POST",
           body: formData
         });
-        setVisVal(reponse);
-        if(reponse.ok) {
-          console.log("File Good");
-        }
-        else {
-          console.error("nope");
-        }
+        setVisData(reponse);
+      }
+      if(useAudio)
+      {
+        const reponse = await fetch(endpoint_Audio, {
+          method: "POST",
+          body: formData
+        });
+        setAudData(reponse);
+      }
+      if(useText)
+      {
+        const reponse = await fetch(endpoint_Text, {
+          method: "POST",
+          body: formData
+        });
+        setTexData(reponse);
+      }
+        
     }
     catch(error)
     {
@@ -50,6 +75,16 @@ function App() {
  
   const handleClick = () => {
     alert('Button clicked!');
+  };
+
+  const handleVisualCheck = () => {
+    setVisual(!useVisual);
+  };
+  const handleAudioCheck = () => {
+    setAudio(!useAudio);
+  };
+  const handleText = () => {
+    setText(!useText);
   };
   const titles = gsap.utils.toArray("p");
   const tl = gsap.timeline({repeat: -1, yoyo: true, repeatDelay: 1});
@@ -124,14 +159,11 @@ function App() {
   }}>
     <div>
             <h1>Upload File</h1>
-            <form>
+            <form style={{alignContent:'center'}}>
                 <input type="file" onChange={handleFile}></input>
-                <button type="submit">
-                        Detect
-                </button>
+                        
             </form>
             {file && <p>{file.name}</p>}
-            {visVal && <p>{visVal}</p>}
         </div>
 
     <textarea
@@ -153,12 +185,48 @@ function App() {
       transform: 'translateY(-50%)', // Centers the box vertically
  }} placeholder="Name of person..." />
 
-  <Button className="coolBlueButton" onClick={handleClick} 
+  <div className='checkboxes'>
+      <label>
+        {/* The checkbox input */}
+        <input
+          type="checkbox"
+          checked={useVisual}
+          onChange={handleVisualCheck}
+        />
+        {/* Label text dynamically changes based on the checkbox state */}
+        {isChecked ? 'Use Visual' : 'Use Visual'}
+      </label>
+
+      <label>
+        {/* The checkbox input */}
+        <input
+          type="checkbox"
+          checked={useAudio}
+          onChange={handleAudioCheck}
+        />
+        {/* Label text dynamically changes based on the checkbox state */}
+        {isChecked ? 'Use Audio' : 'Use Audio'}
+      </label>
+
+      <label>
+        {/* The checkbox input */}
+        <input
+          type="checkbox"
+          checked={useText}
+          onChange={handleText}
+        />
+        {/* Label text dynamically changes based on the checkbox state */}
+        {isChecked ? 'Use Text' : 'Use Text'}
+      </label>
+  </div>
+
+
+  <Button className="coolBlueButton" onClick={handleDetect} 
       style={{position: 'absolute',
         left: 'calc(33.33% + 275px)', // Moves the box to the left third and then 50px to the left
         top: '95%', // Adjust as needed,
         width: '260px',
-        transform: 'translateY(-50%)'}}>Try Demo! </Button>
+        transform: 'translateY(-50%)'}}>Detect </Button>
 
 
 
