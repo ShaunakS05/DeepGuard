@@ -3,6 +3,8 @@ import bg from './cool-background.svg';
 import bg2 from './cool-background2.png';
 import bg3 from './cool-background3.png';
 import gsap from "gsap";
+import {React, useState} from 'react';
+import FileForm from './Componets/FileForm';
 import SplitTextJS from 'split-text-js';
 import Button from 'react-bootstrap/Button';
 
@@ -11,7 +13,40 @@ import Button from 'react-bootstrap/Button';
 
 function App() {
 
+  const endpoint_Visual = "http://localhost:5000/check-visual-deepfake"
+  const endpoint_Audio = "http://localhost:5000/check-audio-deepfake"
+  const endpoint_Text = "http://localhost:5000/check-text-deepfake" 
 
+  const[file, setFile] = useState(null);
+
+  const handleFile = (event) => {
+    setFile(event.target.file[0])
+  }
+  const handleDetect = async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData();
+    formData.append('file_upload', file);
+
+    try {
+        const reponse = await fetch(endpoint_Visual, {
+          method: "POST",
+          body: formData
+        });
+
+        if(reponse.ok) {
+          console.log("File Good");
+        }
+        else {
+          console.error("nope");
+        }
+    }
+    catch(error)
+    {
+      console.error(error);
+    }
+  }
+ 
   const handleClick = () => {
     alert('Button clicked!');
   };
@@ -40,6 +75,7 @@ function App() {
 
 
   return (
+
     <div className="App">
         <div style={{
         backgroundImage: `url(${bg})`,
@@ -85,7 +121,16 @@ function App() {
     backgroundColor: 'white',
     // Other styling for the box
   }}>
-    {/* Content inside the white box */}
+    <div>
+            <h1>Upload File</h1>
+            <form>
+                <input type="file"></input>
+                <button type="submit" onChange={handleFile}>
+                        Detect
+                </button>
+            </form>
+            {file && <p>{file.name}</p>}
+        </div>
 
     <textarea
   className="cool-blue-textarea"
@@ -105,6 +150,7 @@ function App() {
       width: '260px',
       transform: 'translateY(-50%)', // Centers the box vertically
  }} placeholder="Name of person..." />
+
   <Button className="coolBlueButton" onClick={handleClick} 
       style={{position: 'absolute',
         left: 'calc(33.33% + 275px)', // Moves the box to the left third and then 50px to the left
@@ -112,12 +158,9 @@ function App() {
         width: '260px',
         transform: 'translateY(-50%)'}}>Try Demo! </Button>
 
-<div className="checkbox-container" style={{
-  position: 'absolute',
-  left: '10px'
-}}>  
+
+
   
-</div>
 
 
 
