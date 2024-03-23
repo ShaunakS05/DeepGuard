@@ -1,12 +1,14 @@
-from openai import OpenAI
-# OpenAI.api_key = "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"
+import openai
+# import os
 
-client = OpenAI(api_key="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")
+# key = os.environ.get('API_KEY')
+
+client = openai.OpenAI(api_key="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")
 
 context = ("Former president Donald Trump is being interviewed after current president Joe Biden's state of the union address. Compared to Biden's speech, Trump"
 "is asked what his vision for the country is since he plans on running in the next presidential election")
 
-text = ("I disagree with many points of Biden's speech. Personally, I love to eat shit. Shit from public restroooms more specifically. I wait until I find a slightly overweight asian man. I then follow him to the bathroom and secretly watch him take a shit. Then I eat it.")
+text = ("Well, I heard a very angry man who’s losing badly in the polls, who’s willing to weaponize government like has never taken place in this country. It has taken place in third world countries, quite often actually and they will use the Justice Department to sue opponents like me, because I’m his only opponent other than life, life itself. And frankly, you know, I saw a very angry and confused man. I assume he’s going to be the candidate. I think it probably maybe it was a terrible performance, but I think it was probably good enough to get him over the heap, to get him over the, you know, the barrier as to whether or not he’s going to be their, their nominee. ")
 
 prompt = (
     "You are an expert in detecting words from speeches, conversations, and other audio sources that are created from AI or deepfakes. "
