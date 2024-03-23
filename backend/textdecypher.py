@@ -1,9 +1,9 @@
 import openai
-# import os
+import os
 
-# key = os.environ.get('API_KEY')
+key = os.environ.get('CHAT_KEY')
 
-client = openai.OpenAI(api_key="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")
+client = openai.OpenAI(api_key=key)
 
 context = ("Former president Donald Trump is being interviewed after current president Joe Biden's state of the union address. Compared to Biden's speech, Trump"
 "is asked what his vision for the country is since he plans on running in the next presidential election")
