@@ -1,0 +1,21 @@
+.coolBlueButton {
+  padding: 10px 20px;
+  background-color: #007bff; /* Bootstrap primary blue for example */
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  outline: none; /* Removes the outline to make it look cleaner */
+}
+
+.coolBlueButton:hover, .coolBlueButton:focus {
+  background-color: #0056b3; /* A darker shade of blue on hover/focus */
+  transform: scale(1.05); /* Slightly increase the button size */
+}
+
+.coolBlueButton:active {
+  background-color: #004085; /* Even darker blue when the button is clicked */
+  transform: scale(1); /* Return to original size when clicked */
+}

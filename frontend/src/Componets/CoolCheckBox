@@ -1,0 +1,24 @@
+import React, { useState } from 'react';
+
+const CoolCheckbox = () => {
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleChange = (event) => {
+    setIsChecked(event.target.checked);
+    // You can handle the value change here. For example, console.log it:
+    console.log(event.target.checked);
+  };
+
+  return (
+    <label className="custom-checkbox-container">
+      <input
+        type="checkbox"
+        checked={isChecked}
+        onChange={handleChange}
+      />
+      <span className="custom-checkbox"></span>
+    </label>
+  );
+};
+
+export default CoolCheckbox;
