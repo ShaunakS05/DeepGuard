@@ -1,3 +1,4 @@
+"""
 import openai
 import os
 
@@ -41,3 +42,4 @@ def textDetection(context, text):
   )
 
   return response.choices[0].message.content
+  """

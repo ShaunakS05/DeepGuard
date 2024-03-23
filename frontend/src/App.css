@@ -22,6 +22,16 @@
   line-height: 0;
 
 }
+
+.checkboxes
+{
+  color: white;
+  display: flex;
+  position: relative;
+  left: 116%;
+  top: 11%;
+  flex-direction: column;
+}
 .one
 {
   position: absolute;
