@@ -15,7 +15,10 @@ function App() {
 
   const endpoint_Visual = "http://localhost:8000/check-visual-deepfake"
   const endpoint_Audio = "http://localhost:8000/check-audio-deepfake"
-  const endpoint_Text = "http://localhost:3000/check-text-deepfake" 
+  const endpoint_Text = "http://localhost:8000/check-text-deepfake" 
+
+  const endpoint_TTYT = "http://localhost:8000/title/"
+  const endpoint_picture = "http://localhost:8000/thumbnail/"
 
   const[vis, setVis] = useState(null);
   const[file, setFile] = useState(null);
@@ -23,6 +26,9 @@ function App() {
   const[useVisual, setVisual] = useState(false);
   const[useAudio, setAudio] = useState(false);
   const[useText, setText] = useState(false);
+
+  const[name, setName] = useState(null);
+  const[context, setContext] = useState(null);
 
   const[visualData, setVisData] = useState(null);
   const[audioData, setAudData] = useState(null);
@@ -36,47 +42,160 @@ function App() {
 
   const [isChecked, setIsChecked] = useState(false);
 
+  const[ytTitle, setYTtitle] = useState(null);
+  const[ytImage, setYtImage] = useState(null);
+
 
 
   const handleFile = (event) => {
     setFile(event.target.files[0])
   }
+
   const handleDetect = async (event) => {
     setIsChecke1d(true);
     event.preventDefault();
-
-    const formData = new FormData();
-    formData.append('file_upload', file);
-    try {
-
-      const response = await fetch(endpoint_Visual, {
-        method: "POST",
-        body: formData
-      });
-  
-      // Check if the response status is OK (200)
-      if (response.ok) {
-        // Try to parse the response as JSON
-        const response_data = await response.json();
-        const outputObject = JSON.parse(response_data)
-        const resultValue = outputObject.result
-        console.log(response)
-        console.log("Success YIPPEEE" + response_data)
-        console.log("Success YIPPEEE" + resultValue)
-        // Now you can use the response data as needed
-        setVisData(resultValue);
-      } else {
-        // If response status is not OK, throw an error
-        throw new Error('Failed tozsasd fetch data');
-      }
-        
-    }
-    catch(error)
+    if(useVisual)
     {
-      console.error(error);
+      const formData = new FormData();
+      formData.append('file_upload', file);
+      try {
+  
+        const response = await fetch(endpoint_Visual, {
+          method: "POST",
+          body: formData
+        });
+    
+        // Check if the response status is OK (200)
+        if (response.ok) {
+          // Try to parse the response as JSON
+          const response_data = await response.json();
+          const outputObject = JSON.parse(response_data)
+          const resultValue = outputObject.result
+          console.log(response)
+          console.log("Success YIPPEEE" + response_data)
+          console.log("Success YIPPEEE" + resultValue)
+          // Now you can use the response data as needed
+          setVisData(resultValue);
+        } else {
+          // If response status is not OK, throw an error
+          throw new Error('Failed tozsasd fetch data');
+        }
+          
+      }
+      catch(error)
+      {
+        console.error(error);
+      }
+    }
+    if(useAudio)
+    {
+      const formDataAudio = new FormData();
+      formDataAudio.append('file_upload', file);
+      formDataAudio.append('name', name);
+      formDataAudio.append('context', context);
+
+      try {
+  
+        const response = await fetch(endpoint_Audiod, {
+          method: "POST",
+          body: formDataAudio
+        });
+    
+        // Check if the response status is OK (200)
+        if (response.ok) {
+          // Try to parse the response as JSON
+          const response_data = await response.json();
+          const outputObject = JSON.parse(response_data)
+          const resultValue = outputObject.result
+          console.log(response)
+          console.log("Success YIPPEEE" + response_data)
+          console.log("Success YIPPEEE" + resultValue)
+          // Now you can use the response data as needed
+          setVisData(resultValue);
+        } else {
+          // If response status is not OK, throw an error
+          throw new Error('Failed tozsasd fetch data');
+        }
+          
+      }
+      catch(error)
+      {
+        console.error(error);
+      }}
+    
+    if(useYoutube)
+    {
+      
+        const YTData = new FormData();
+        YTData.append('youtube_link', ytLink);
+        try {
+    
+          const response = await fetch(endpoint_TTYT, {
+            method: "POST",
+            body: YTData
+          });
+      
+          // Check if the response status is OK (200)
+          if (response.ok) {
+            // Try to parse the response as JSON
+
+            const response_data = await response.json();
+            console.log(response_data)
+            setYTtitle(response_data);
+
+
+            const outputObject = JSON.parse(response_data)
+            const resultValue = outputObject.Title
+            console.log(response)
+            console.log("Success YIPPEEE" + response_data)
+            console.log("Success YIPPEEE" + resultValue)
+            // Now you can use the response data as needed
+          } else {
+            // If response status is not OK, throw an error
+            throw new Error('Failed tozsasd fetch data');
+          }
+            
+        }
+        catch(error)
+        {
+          console.error(error);
+        }
+        try {
+    
+          const response = await fetch(endpoint_picture, {
+            method: "POST",
+            body: YTData
+          });
+      
+          // Check if the response status is OK (200)
+          if (response.ok) {
+            // Try to parse the response as JSON
+
+            const response_data = await response.json();
+            console.log(response_data)
+            setYtImage(response_data);
+
+
+            const outputObject = JSON.parse(response_data)
+            const resultValue = outputObject.Title
+            console.log(response)
+            console.log("Success YIPPEEE" + response_data)
+            console.log("Success YIPPEEE" + resultValue)
+            // Now you can use the response data as needed
+          } else {
+            // If response status is not OK, throw an error
+            throw new Error('Failed tozsasd fetch data');
+          }
+            
+        }
+        catch(error)
+        {
+          console.error(error);
+        }
+      
     }
   }
- 
+  
   const handleClick = () => {
     alert('Button clicked!');
   };
@@ -175,6 +294,11 @@ function App() {
                         
             </form>
             {file && <p>{file.name}</p>}
+
+            {ytImage &&<img style={{width:'100px', height:'100px'}}
+        src={ytImage}
+      />}
+      {ytTitle && <p>{ytTitle}</p>}
         </div>
 
     <textarea
@@ -253,6 +377,7 @@ function App() {
       {visualData && <h2>{visualData}</h2>}
       {isChecke1d && <h2>yes</h2>}
       <h1>{ytLink}</h1>
+      <h1>{ytTitle}</h1>
   </div>
 
 

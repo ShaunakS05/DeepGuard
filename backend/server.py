@@ -87,13 +87,20 @@ def get_mp4(youtube_link: str):
 # Curl Command to Download video to your local directory:
 # curl -o downloaded_video.mp4 "http://127.0.0.1:8000/mp4/?youtube_link=https://www.youtube.com/shorts/jcNzoONhrmE"
 
-@app.get("/thumbnail_and_title/")
+@app.post("/title/")
 def get_thumbnail_and_title(youtube_link: str="https://www.youtube.com/shorts/jcNzoONhrmE"):
     # Instantiate a YouTube object using the provided link
     yt = YouTube(youtube_link)
 
     # Return streaming response
-    return {"Title": yt.title , "Thumbnail_URL":yt.thumbnail_url}
+    return yt.title
+@app.post("/thumbnail/")
+def get_thumbnail_and_title(youtube_link: str="https://www.youtube.com/shorts/jcNzoONhrmE"):
+    # Instantiate a YouTube object using the provided link
+    yt = YouTube(youtube_link)
+
+    # Return streaming response
+    return yt.thumbnail_url
 
 # Curl Command to get thumnail:
 # curl http://127.0.0.1:8000/thumbnail_and_title/?youtube_link=https://www.youtube.com/shorts/jcNzoONhrmE
