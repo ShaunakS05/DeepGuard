@@ -29,7 +29,7 @@
   display: flex;
   position: relative;
   left: 116%;
-  top: 11%;
+  top: -380px;
   flex-direction: column;
 }
 .one
@@ -62,6 +62,64 @@
   margin-left: 10%;
 
 }
+
+.upload-section {
+  padding: 20px;
+  background-color: #f4f7f6;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: 20px;
+}
+
+.upload-section h1 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.dropzone {
+  align-items: center;
+  border: 2px dashed #007bff;
+  border-radius: 5px;
+  padding: 30px;
+  background-color: #e8f0fe;
+  color: #007bff;
+  margin-bottom: 15px;
+  transition: background-color 0.3s;
+  width: 150px;
+  height: 350px;
+}
+
+.dropzone:focus {
+  outline: none;
+  border-color: #0056b3;
+}
+
+.dropzone p {
+  text-align: center;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  position: relative;
+  top: 50%;
+}
+
+.dropzone input {
+  display: none;
+}
+
+/* Active state styles */
+.dropzone-active {
+  background-color: #d0e2fd;
+}
+
+.file-info {
+  font-size: 14px;
+  color: #333;
+  margin-top: 10px;
+}
+
 .coolBlueButton {
   padding: 10px 20px;
   background-color: #007bff; /* Bootstrap primary blue for example */

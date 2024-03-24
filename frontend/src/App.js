@@ -5,6 +5,8 @@ import bg3 from './cool-background3.png';
 import gsap from "gsap";
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
+import React, { useState, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
 import FileForm from './Componets/FileForm';
 import SplitTextJS from 'split-text-js';
 import Button from 'react-bootstrap/Button';
@@ -108,19 +110,13 @@ function App() {
         // Check if the response status is OK (200)
         if (response.ok) {
           const response_data = await response.json();
-          // Try to parse the response as JSON
-          //const response_data = await response.json();
-          const outputObject = JSON.parse(response_data);
-          //const outputObject = JSON.parse(response_data)
-          //const Text_Score = outputObject.numerical_answer
-          //const Text_explanation = outputObject.explanation
-          //setTextScore(Text_Score);
-          //setTextExplanation(Text_explanation);
-          //console.log(response)
-          console.log("Success YIPPEEE" + outputObject.numerical_answer)
-          console.log("Success YIPPEEE" + outputObject.explanation)
+          const outputObject = JSON.parse(response_data)
+          const resultValue = outputObject.result
+          console.log(response)
+          console.log("Success YIPPEEE" + response_data)
+          console.log("Success YIPPEEE" + resultValue)
           // Now you can use the response data as needed
-          setVisData(outputObject.numerical_answer);
+          setVisData(resultValue);
         } else {
           // If response status is not OK, throw an error
           throw new Error('Failed tozsasd fetch data');
