@@ -8,6 +8,7 @@ import { useDropzone } from 'react-dropzone';
 import FileForm from './Componets/FileForm';
 import SplitTextJS from 'split-text-js';
 import Button from 'react-bootstrap/Button';
+import PieChartWithText from './PieChartWithText';
 
 
 
@@ -350,7 +351,7 @@ function App() {
           <input {...getInputProps()} />
           {
             isDragActive ?
-              <p>Drop the files here ...</p> :
+              <span>Drop the files here ...</span> :
               <div>Drag and Drop</div>
           }
                   {file && <p>File selected: {file.name}</p>}
