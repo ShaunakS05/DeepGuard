@@ -29,6 +29,8 @@ function App() {
   const[textData, setTexData] = useState(null);
 
 
+  const [isChecke1d, setIsChecke1d] = useState(false);
+
   const [isChecked, setIsChecked] = useState(false);
 
 
@@ -37,6 +39,7 @@ function App() {
     setFile(event.target.files[0])
   }
   const handleDetect = async (event) => {
+    setIsChecke1d(true);
     event.preventDefault();
 
     const formData = new FormData();
@@ -44,11 +47,12 @@ function App() {
     try {
       if(useVisual)
       {
-        const reponse = await fetch(endpoint_Visual, {
+        const response = await fetch(endpoint_Visual, {
           method: "POST",
           body: formData
         });
-        setVisData(reponse);
+        const response_data = await response.json()
+        setVisData(response_data.message)
       }
       if(useAudio)
       {
@@ -186,8 +190,6 @@ function App() {
       transform: 'translateY(-50%)', // Centers the box vertically
  }} placeholder="Name of person..." />
 
-<<<<<<< HEAD
-=======
   <div className='checkboxes'>
       <label>
         {/* The checkbox input */}
@@ -221,10 +223,11 @@ function App() {
         {/* Label text dynamically changes based on the checkbox state */}
         {isChecked ? 'Use Text' : 'Use Text'}
       </label>
+      {visualData && <h2>{visualData}</h2>}
+      {isChecke1d && <h2>yes</h2>}
   </div>
 
 
->>>>>>> 9029319850561080bff7d20802d9cd1fc4eef3d4
   <Button className="coolBlueButton" onClick={handleDetect} 
       style={{position: 'absolute',
         left: 'calc(33.33% + 275px)', // Moves the box to the left third and then 50px to the left

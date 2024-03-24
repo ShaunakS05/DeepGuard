@@ -6,6 +6,7 @@ from texttospeech import extractSpeech
 import requests
 import base64
 from moviepy.editor import *
+import json
 
 app = FastAPI()
 
@@ -39,6 +40,9 @@ async def check_audio_deepfake(mp4video: UploadFile = File(...)):
 
 
 @app.get("/check-visual-deepfake")
+def return_number(video_file: UploadFile = File(...)):
+    return {"message": f"hello"}
+"""
 async def check_visual_deepfake(video_file: UploadFile = File(...)):
     contents = await video_file.read()
     with open(video_file.filename, "rb") as f:
@@ -51,4 +55,7 @@ async def check_visual_deepfake(video_file: UploadFile = File(...)):
         'content-type': 'application/json'
     }
     response = requests.request("POST", url, json=payload, headers=headers)
-    return {"Data:": response.text}
+    response_dict = json.loads(response.text)
+    success = response_dict.get('success')
+    return success
+"""
