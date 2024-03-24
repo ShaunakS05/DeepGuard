@@ -48,7 +48,7 @@ def textDetection(context, text, person):
     try:
         # Accessing the first choice and its message content
         response_content = result['choices'][0]['message']['content']
-        print(response_content)  # This will print only the message content
+        return response_content
     except KeyError:
-        print("Error accessing the response content.")
+        return("Error accessing the response content.")
 
