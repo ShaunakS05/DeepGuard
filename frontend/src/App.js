@@ -3,7 +3,8 @@ import bg from './cool-background.svg';
 import bg2 from './cool-background2.png';
 import bg3 from './cool-background3.png';
 import gsap from "gsap";
-import {React, useState} from 'react';
+import React, { useState, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
 import FileForm from './Componets/FileForm';
 import SplitTextJS from 'split-text-js';
 import Button from 'react-bootstrap/Button';
@@ -30,6 +31,9 @@ function App() {
   const[name, setName] = useState(null);
   const[context, setContext] = useState(null);
 
+  const[text_score, setTextScore] = useState(null);
+  const[Text_explanation1, setTextExplanation] = useState(null);
+
   const[visualData, setVisData] = useState(null);
   const[audioData, setAudData] = useState(null);
   const[textData, setTexData] = useState(null);
@@ -47,7 +51,7 @@ function App() {
 
 
 
-  const handleFile = (event) => {
+  const handleFileChange = (event) => {
     setFile(event.target.files[0])
   }
 
@@ -87,18 +91,18 @@ function App() {
         console.error(error);
       }
     }
-    if(useAudio)
+    if(useText)
     {
-      const formDataAudio = new FormData();
-      formDataAudio.append('file_upload', file);
-      formDataAudio.append('name', name);
-      formDataAudio.append('context', context);
+      const formDataText = new FormData();
+      formDataText.append('file_upload', file);
+      formDataText.append('name', name);
+      formDataText.append('context', context);
 
       try {
   
-        const response = await fetch(endpoint_Audiod, {
+        const response = await fetch(endpoint_Text, {
           method: "POST",
-          body: formDataAudio
+          body: formDataText
         });
     
         // Check if the response status is OK (200)
@@ -106,12 +110,15 @@ function App() {
           // Try to parse the response as JSON
           const response_data = await response.json();
           const outputObject = JSON.parse(response_data)
-          const resultValue = outputObject.result
+          const Text_Score = outputObject.numerical_answer
+          const Text_explanation = outputObject.explanation
+          setTextScore(Text_Score);
+          setTextExplanation(Text_explanation);
           console.log(response)
           console.log("Success YIPPEEE" + response_data)
-          console.log("Success YIPPEEE" + resultValue)
+          console.log("Success YIPPEEE" + Text_Score)
           // Now you can use the response data as needed
-          setVisData(resultValue);
+          setVisData(Text_Score);
         } else {
           // If response status is not OK, throw an error
           throw new Error('Failed tozsasd fetch data');
@@ -216,6 +223,14 @@ function App() {
     setYoutubeCheck(!useYoutube)
   };
 
+
+
+  const onDrop = useCallback(acceptedFiles => {
+    // Assuming you want to handle a single file, use the first file in the array
+    setFile(acceptedFiles[0]);
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   const titles = gsap.utils.toArray("p");
   const tl = gsap.timeline({repeat: -1, yoyo: true, repeatDelay: 1});
 
@@ -287,18 +302,18 @@ function App() {
     backgroundColor: 'white',
     // Other styling for the box
   }}>
-    <div>
-            <h1>Upload File</h1>
-            <form style={{alignContent:'center'}}>
-                <input type="file" onChange={handleFile}></input>
-                        
-            </form>
-            {file && <p>{file.name}</p>}
+     <div className="upload-section">
+        <h1>Upload File</h1>
+        <div {...getRootProps()} className="dropzone">
+          <input {...getInputProps()} />
+          {
+            isDragActive ?
+              <p>Drop the files here ...</p> :
+              <p>Drag and Drop</p>
+          }
+                  {file && <p>File selected: {file.name}</p>}
 
-            {ytImage &&<img style={{width:'100px', height:'100px'}}
-        src={ytImage}
-      />}
-      {ytTitle && <p>{ytTitle}</p>}
+        </div>
         </div>
 
     <textarea
@@ -387,8 +402,6 @@ function App() {
         top: '95%', // Adjust as needed,
         width: '260px',
         transform: 'translateY(-50%)'}}>Detect </Button>
-
-
 
   
 
