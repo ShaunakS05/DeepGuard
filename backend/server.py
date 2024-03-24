@@ -39,11 +39,11 @@ async def check_audio_deepfake(mp4video: UploadFile):
         result= audioDetection1("output.mp3")
         return {"result": result}
 
-#@app.post("/check-text-deepfake")
-#def check_text_deepfake(context):
- #   text = extractSpeech()
-  #  response = textDetection(context, text)
-   # return {"result": response}
+@app.post("/check-text-deepfake")
+def check_text_deepfake(context):
+    text = extractSpeech()
+    response = textDetection(context, text)
+    return {"result": response}
 
 
 @app.post("/check-visual-deepfake")
