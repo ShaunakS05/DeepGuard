@@ -1,12 +1,12 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
-from audioDetection import audioDetection1
+from audioDetection import *
 from texttospeech import extractSpeech
 #from textdecypher import textDetection
 import requests
 import base64
 from moviepy.editor import *
-import json
+import wave
 
 app = FastAPI()
 
@@ -31,9 +31,8 @@ async def check_audio_deepfake(mp4video: UploadFile):
     contents = await mp4video.read()
     with open(mp4video.filename, "wb") as f:
         video = VideoFileClip(mp4video.filename)
-        video.audio.write_audiofile("output.mp3")
-        result= audioDetection1("output.mp3")
-        return {"result": result}
+        video.audio.write_audiofile("audio_data/donald_trump/fake/output.mp3")
+        return {"DeepFake": returnAudioScores()[0], "Scores": returnAudioScores[1]}
 
 #@app.post("/check-text-deepfake")
 #def check_text_deepfake(context):
@@ -49,7 +48,7 @@ async def check_visual_deepfake(file_upload: UploadFile):
     base64_data = base64.b64encode(contents).decode("utf-8")
     payload = {"doc_base64": str(base64_data), "req_id": "Detecting_Deepfake", "isIOS": False, "doc_type": "video", "orientation": 0, }
     headers = {
-        'token': '9b72fe9af0336a95f32ee5bf4bd1af19',
+        'token': 'cd76fb9ea5376d91a07ce7e01fd9f817',
         'content-type': 'application/json'
     }
     response = requests.request("POST", url, json=payload, headers=headers)

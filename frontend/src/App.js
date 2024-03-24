@@ -55,7 +55,9 @@ function App() {
       if (response.ok) {
         // Try to parse the response as JSON
         const response_data = await response.json();
-        console.log("Success YIPPEEE")
+        console.log(response)
+        console.log(response_data)
+        console.log("Success YIPPEEE" + response_data.result)
         // Now you can use the response data as needed
         setVisData(response_data.result);
       } else {
