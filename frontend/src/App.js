@@ -54,7 +54,6 @@ function App() {
   const handleDetect = async (event) => {
     setIsChecke1d(true);
     event.preventDefault();
-<<<<<<< HEAD
 
     const formData = new FormData();
     formData.append('file_upload', file);
@@ -86,9 +85,6 @@ function App() {
         
     }
     catch(error)
-=======
-    if(useVisual)
->>>>>>> c304f070dda173b8b277e4b20f583c5401d7609a
     {
       const formData = new FormData();
       formData.append('file_upload', file);
