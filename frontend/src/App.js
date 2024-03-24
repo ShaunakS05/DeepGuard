@@ -5,8 +5,6 @@ import bg3 from './cool-background3.png';
 import gsap from "gsap";
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import React, { useState, useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
 import FileForm from './Componets/FileForm';
 import SplitTextJS from 'split-text-js';
 import Button from 'react-bootstrap/Button';
