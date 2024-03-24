@@ -55,11 +55,13 @@ function App() {
       if (response.ok) {
         // Try to parse the response as JSON
         const response_data = await response.json();
+        const outputObject = JSON.parse(response_data)
+        const resultValue = outputObject.result
         console.log(response)
-        console.log(response_data)
-        console.log("Success YIPPEEE" + response_data.result)
+        console.log("Success YIPPEEE" + response_data)
+        console.log("Success YIPPEEE" + resultValue)
         // Now you can use the response data as needed
-        setVisData(response_data.result);
+        setVisData(resultValue);
       } else {
         // If response status is not OK, throw an error
         throw new Error('Failed tozsasd fetch data');
