@@ -49,7 +49,7 @@ function App() {
     formData.append('file_upload', file);
     try {
 
-      const response = await fetch(endpoint_Visual, {
+      const response = await fetch(endpoint_Audio, {
         method: "POST",
         body: formData
       });
@@ -58,13 +58,16 @@ function App() {
       if (response.ok) {
         // Try to parse the response as JSON
         const response_data = await response.json();
-        const outputObject = JSON.parse(response_data)
-        const resultValue = outputObject.result
-        console.log(response)
-        console.log("Success YIPPEEE" + response_data)
-        console.log("Success YIPPEEE" + resultValue)
+        //const outputObject = JSON.parse(response_data)
+        //const resultValue = outputObject.DeepFake
+        //const resultValue = outputObject.result
+        console.log(response_data.DeepFake)
+        console.log(response_data.Scores[0])
+        //console.log(response)
+        //console.log("Success YIPPEEE" + response_data)
+        //console.log("Success YIPPEEE" + resultValue)
         // Now you can use the response data as needed
-        setVisData(resultValue);
+        setVisData(response_data.DeepFake);
       } else {
         // If response status is not OK, throw an error
         throw new Error('Failed tozsasd fetch data');

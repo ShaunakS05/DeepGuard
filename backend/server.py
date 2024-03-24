@@ -30,15 +30,25 @@ app.add_middleware(
 def home():
     return {"Data": "Test"}
 
-"""
+
 @app.post("/check-audio-deepfake")
-async def check_audio_deepfake(mp4video: UploadFile):
-    contents = await mp4video.read()
-    with open(mp4video.filename, "wb") as f:
-        video = VideoFileClip(mp4video.filename)
-        video.audio.write_audiofile("audio_data/donald_trump/fake/output.mp3")
-        return {"DeepFake": returnAudioScores()[0], "Scores": returnAudioScores[1]}
-"""
+async def check_audio_deepfake(file_upload: UploadFile):
+    contents = await file_upload.read()
+    
+    with open(file_upload.filename, "wb") as f:
+        f.write(contents)
+    
+    video = VideoFileClip(file_upload.filename)
+    video.audio.write_audiofile("audio_data/donald_trump/fake/output.mp3")
+    deepfake_label, scores = returnAudioScores()
+    scores_list = scores.tolist() if isinstance(scores, np.ndarray) else scores
+    return {"DeepFake": deepfake_label, "Scores": scores_list}
+    
+    #with open(file_upload.filename, "wb") as f:
+    #    video = VideoFileClip(file_upload.filename)
+    #    video.audio.write_audiofile("audio_data/donald_trump/fake/output.mp3")
+    #    return {"DeepFake": returnAudioScores()[0], "Scores": returnAudioScores[1]}
+
 #@app.post("/check-text-deepfake")
 #def check_text_deepfake(context):
  #   text = extractSpeech()
