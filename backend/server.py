@@ -1,10 +1,10 @@
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
-from pytube import YouTube
+# from pytube import YouTube
 from audioDetection import *
-# from texttospeech import extractSpeech
-# from textdecypher import textDetection
+from texttospeech import extractSpeech
+from textdecypher import textDetection
 import io
 import requests
 import base64
@@ -49,13 +49,18 @@ async def check_audio_deepfake(file_upload: UploadFile):
     #    video.audio.write_audiofile("audio_data/donald_trump/fake/output.mp3")
     #    return {"DeepFake": returnAudioScores()[0], "Scores": returnAudioScores[1]}
 
-#@app.post("/check-text-deepfake")
-#def check_text_deepfake(context):
- #   text = extractSpeech()
-  #  response = textDetection(context, text)
-   # return {"result": response}
+@app.post("/check-text-deepfake")
+async def check_text_deepfake(file_upload: UploadFile, name: str=Form(), context: str=Form()):
+    contents = await file_upload.read()
+    with open(file_upload.filename, "wb") as f:
+        f.write(contents)
 
-"""
+    text = extractSpeech(file_upload.filename)
+    response = textDetection(name, text, context)
+    print(response)
+    return response
+
+
 @app.post("/check-visual-deepfake")
 async def check_visual_deepfake(file_upload: UploadFile):
     contents = await file_upload.read()
@@ -63,12 +68,12 @@ async def check_visual_deepfake(file_upload: UploadFile):
     base64_data = base64.b64encode(contents).decode("utf-8")
     payload = {"doc_base64": str(base64_data), "req_id": "Detecting_Deepfake", "isIOS": False, "doc_type": "video", "orientation": 0, }
     headers = {
-        'token': '9b77aacff76a6a9ca378e2b21ad0fc4d',
+        'token': 'ca71aacdf4336e93a12db5e41bd5a91d',
         'content-type': 'application/json'
     }
     response = requests.request("POST", url, json=payload, headers=headers)
     return response.text
-"""
+
 
 @app.get("/mp4/")
 def get_mp4(youtube_link: str):
@@ -98,14 +103,15 @@ def get_mp4(youtube_link: str):
 # curl -o downloaded_video.mp4 "http://127.0.0.1:8000/mp4/?youtube_link=https://www.youtube.com/shorts/jcNzoONhrmE"
 
 @app.post("/title/")
-def get_thumbnail_and_title(youtube_link: str="https://www.youtube.com/shorts/jcNzoONhrmE"):
+def get_thumbnail_and_title(youtube_link: str):
     # Instantiate a YouTube object using the provided link
     yt = YouTube(youtube_link)
 
     # Return streaming response
     return yt.title
+
 @app.post("/thumbnail/")
-def get_thumbnail_and_title(youtube_link: str="https://www.youtube.com/shorts/jcNzoONhrmE"):
+def get_thumbnail_and_title(youtube_link: str):
     # Instantiate a YouTube object using the provided link
     yt = YouTube(youtube_link)
 

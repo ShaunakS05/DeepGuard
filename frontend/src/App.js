@@ -116,18 +116,17 @@ function App() {
     
         // Check if the response status is OK (200)
         if (response.ok) {
-          // Try to parse the response as JSON
           const response_data = await response.json();
           const outputObject = JSON.parse(response_data)
-          const Text_Score = outputObject.numerical_answer
-          const Text_explanation = outputObject.explanation
-          setTextScore(Text_Score);
-          setTextExplanation(Text_explanation);
+          const confidenceScore = outputObject.numerical_answer
+          const explanation2 = outputObject.explanation
+
+          setTextExplanation(explanation2);
+          setTextScore(confidenceScore);
           console.log(response)
-          console.log("Success YIPPEEE" + response_data)
-          console.log("Success YIPPEEE" + Text_Score)
+          console.log("Success YIPPEEE" + confidenceScore)
+          console.log("Success YIPPEEE")
           // Now you can use the response data as needed
-          setVisData(Text_Score);
         } else {
           // If response status is not OK, throw an error
           throw new Error('Failed tozsasd fetch data');
@@ -155,13 +154,13 @@ function App() {
           if (response.ok) {
             // Try to parse the response as JSON
             const response_data = await response.json();
-            const outputObject = JSON.parse(response_data)
-            const score = outputObject.Scores[0];
-            const deepFakeAud = outputObject.DeepFake;
+            //const outputObject = JSON.parse(response_data)
+            const score = response_data.Scores[0];
+            const deepFakeAud = response_data.DeepFake;
             setAudData_Deepfake(deepFakeAud);
             setAudData_Score(score);
-            console.log(response)
-            console.log("Success YIPPEEE" + response_data)
+            console.log("Deepfake?" + deepFakeAud)
+            console.log("Score: " + score)
             // Now you can use the response data as needed
           } else {
             // If response status is not OK, throw an error
@@ -249,6 +248,12 @@ function App() {
     alert('Button clicked!');
   };
 
+  const handleName = (event) => {
+    setName(event.target.value);
+  }
+  const handleContext = (event) => {
+    setContext(event.target.value);
+  }
   const handleVisualCheck = () => {
     setVisual(!useVisual);
   };
@@ -359,7 +364,7 @@ function App() {
         </div>
         </div>
 
-    <textarea
+    <textarea onChange={handleContext} value={context}
   className="cool-blue-textarea"
   placeholder="What is happening the video?"
     style={{position: 'absolute',
@@ -368,7 +373,6 @@ function App() {
     transform: 'translateY(-50%)',
   }}
 ></textarea>
-
  
  <input type="text" className="cool-blue-input" 
     style={{position: 'absolute',
@@ -376,7 +380,8 @@ function App() {
       top: '5%', // Adjust as needed,
       width: '260px',
       transform: 'translateY(-50%)', // Centers the box vertically
- }} placeholder="Name of person..." />
+ }} placeholder="Name of person..." onChange={handleName} value={name}/>
+
 
  
 <input type="text" className="cool-blue-input" 
@@ -467,7 +472,7 @@ function App() {
     <h4>Text Score: {text_score1}</h4>
     <h4>Video Result: {visualData}</h4>
     <h4>Voice Result: {audioData_DeepFake}</h4>
-    <h4>Voice Score" {audioData_Score}</h4>
+    <h4>Voice Score: {audioData_Score}</h4>
 
 
 

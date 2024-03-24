@@ -1,16 +1,14 @@
-"""
 from google.cloud import speech
 from moviepy.editor import *
 
 client = speech.SpeechClient.from_service_account_file('keygoogle.json')
 
-mp4audio = "realVideoTrump.mp4"
 
-video = VideoFileClip(mp4audio)
-video.audio.write_audiofile("output.mp3")
-file_name = "output.mp3"
+def extractSpeech(mp4audio):
 
-def extractSpeech():
+    video = VideoFileClip(mp4audio)
+    video.audio.write_audiofile("output.mp3")
+    file_name = "output.mp3"
 
     with open(file_name, 'rb') as f:
         mp3_data = f.read()
@@ -37,11 +35,11 @@ def extractSpeech():
             # Add the transcript to the list
             transcripts.append(alternative.transcript)
 
-    # Check if there are any transcripts
     if transcripts:
         # Join all transcripts into one single string
         all_transcripts = ' '.join(transcripts)
         return all_transcripts
     else:
         return ("No transcripts found in the response.")
-"""
+    
+
