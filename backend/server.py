@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from audioDetection import audioDetection1
 from texttospeech import extractSpeech
@@ -11,7 +11,7 @@ import json
 app = FastAPI()
 
 origins = [
-    'https://localhost:3000'
+    'http://localhost:3000'
 ]
 
 app.add_middleware(
@@ -39,9 +39,11 @@ async def check_audio_deepfake(mp4video: UploadFile = File(...)):
    # return {"result": response}
 
 
-@app.get("/check-visual-deepfake")
-def return_number(video_file: UploadFile = File(...)):
-    return {"message": f"hello"}
+@app.post("/check-visual-deepfake")
+async def return_number(video_file: UploadFile = File(...)):
+    contents = await video_file.read()
+    with open (video_file.filename, "wb") as f:
+        return {"message": f"hello"}
 """
 async def check_visual_deepfake(video_file: UploadFile = File(...)):
     contents = await video_file.read()

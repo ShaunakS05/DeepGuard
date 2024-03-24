@@ -13,7 +13,7 @@ import Button from 'react-bootstrap/Button';
 
 function App() {
 
-  const endpoint_Visual = "http://localhost:3000/check-visual-deepfake"
+  const endpoint_Visual = "http://localhost:8000/check-visual-deepfake"
   const endpoint_Audio = "http://localhost:3000/check-audio-deepfake"
   const endpoint_Text = "http://localhost:3000/check-text-deepfake" 
 
