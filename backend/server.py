@@ -16,7 +16,10 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=['*'],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.get("/")
@@ -24,7 +27,7 @@ def home():
     return {"Data": "Test"}
 
 @app.post("/check-audio-deepfake")
-async def check_audio_deepfake(mp4video: UploadFile = File(...)):
+async def check_audio_deepfake(mp4video: UploadFile):
     contents = await mp4video.read()
     with open(mp4video.filename, "wb") as f:
         video = VideoFileClip(mp4video.filename)
@@ -40,24 +43,14 @@ async def check_audio_deepfake(mp4video: UploadFile = File(...)):
 
 
 @app.post("/check-visual-deepfake")
-async def return_number(video_file: UploadFile = File(...)):
-    contents = await video_file.read()
-    with open (video_file.filename, "wb") as f:
-        return {"message": f"hello"}
-"""
-async def check_visual_deepfake(video_file: UploadFile = File(...)):
-    contents = await video_file.read()
-    with open(video_file.filename, "rb") as f:
-        video_data = f.read()
+async def check_visual_deepfake(file_upload: UploadFile):
+    contents = await file_upload.read()
     url = "https://ping.arya.ai/api/v1/deepfake-detection"
-    base64_data = base64.b64encode(video_data).decode("utf-8")
+    base64_data = base64.b64encode(contents).decode("utf-8")
     payload = {"doc_base64": str(base64_data), "req_id": "Detecting_Deepfake", "isIOS": False, "doc_type": "video", "orientation": 0, }
     headers = {
         'token': '9b72fe9af0336a95f32ee5bf4bd1af19',
         'content-type': 'application/json'
     }
     response = requests.request("POST", url, json=payload, headers=headers)
-    response_dict = json.loads(response.text)
-    success = response_dict.get('success')
-    return success
-"""
+    return response.text
