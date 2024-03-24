@@ -29,6 +29,9 @@ def get_mp4(youtube_link: str="https://www.youtube.com/shorts/jcNzoONhrmE"):
     # Return streaming response
     return StreamingResponse(iter_video(), media_type="video/mp4")
 
+# Curl Command to Download video to your local directory:
+# curl -o downloaded_video.mp4 "http://127.0.0.1:8000/mp4/?youtube_link=https://www.youtube.com/shorts/jcNzoONhrmE"
+
 @app.get("/thumbnail_and_title/")
 def get_thumbnail_and_title(youtube_link: str="https://www.youtube.com/shorts/jcNzoONhrmE"):
     # Instantiate a YouTube object using the provided link
@@ -37,31 +40,5 @@ def get_thumbnail_and_title(youtube_link: str="https://www.youtube.com/shorts/jc
     # Return streaming response
     return {"Title": yt.title , "Thumbnail_URL":yt.thumbnail_url}
 
-# from fastapi import FastAPI, File, UploadFile, Response
-# from pytube import YouTube
-# import shutil
-# import os
-
-# app = FastAPI()
-
-# @app.get("/download_video")
-# async def download_video():
-#     # Replace 'your_path' with the path where you want to save the downloaded video
-#     save_path = '/'
-
-#     # Create a YouTube object
-#     yt = YouTube(f'https://www.youtube.com/shorts/jcNzoONhrmE')
-
-#     # Download the best quality video
-#     video_stream = yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
-#     if video_stream:
-#         filename = video_stream.default_filename
-#         video_stream.download(output_path=save_path, filename=filename)
-        
-#         # Define path to the downloaded video
-#         file_path = os.path.join(save_path, filename)
-
-#         # Return the video as a response
-#         return Response(content=open(file_path, "rb"), media_type="video/mp4")
-#     else:
-#         return {"error": "Video could not be downloaded"}
+# Curl Command to get thumnail:
+# curl http://127.0.0.1:8000/thumbnail_and_title/?youtube_link=https://www.youtube.com/shorts/jcNzoONhrmE
