@@ -28,6 +28,9 @@ function App() {
   const[audioData, setAudData] = useState(null);
   const[textData, setTexData] = useState(null);
 
+  const[ytLink, setYTlink] = useState(null);
+  const[useYoutube, setYoutubeCheck] = useState(null);
+
 
   const [isChecke1d, setIsChecke1d] = useState(false);
 
@@ -83,6 +86,13 @@ function App() {
   const handleText = () => {
     setText(!useText);
   };
+  const handleTextYT = (event) => {
+    setYTlink(event.target.value);
+  };
+  const handleYTCheck = () => {
+    setYoutubeCheck(!useYoutube)
+  };
+
   const titles = gsap.utils.toArray("p");
   const tl = gsap.timeline({repeat: -1, yoyo: true, repeatDelay: 1});
 
@@ -182,6 +192,16 @@ function App() {
       transform: 'translateY(-50%)', // Centers the box vertically
  }} placeholder="Name of person..." />
 
+ 
+<input type="text" className="cool-blue-input" 
+    style={{position: 'absolute',
+      left: 'calc(33.33% + 250px)', // Moves the box to the left third and then 50px to the left
+      top: '105%', // Adjust as needed,
+      left: '0%',
+      width: '260px',
+      transform: 'translateY(-50%)', // Centers the box vertically
+ }} placeholder="Link to Youtube Link" onChange={handleTextYT} value={ytLink}  />
+
   <div className='checkboxes'>
       <label>
         {/* The checkbox input */}
@@ -215,8 +235,20 @@ function App() {
         {/* Label text dynamically changes based on the checkbox state */}
         {isChecked ? 'Use Text' : 'Use Text'}
       </label>
+      <label>
+        {/* The checkbox input */}
+        <input
+          type="checkbox"
+          checked={useYoutube}
+          onChange={handleYTCheck}
+        />
+        
+        {/* Label text dynamically changes based on the checkbox state */}
+        {isChecked ? 'Use Youtube' : 'Use Youtube'}
+      </label>
       {visualData && <h2>{visualData}</h2>}
       {isChecke1d && <h2>yes</h2>}
+      <h1>{ytLink}</h1>
   </div>
 
 
