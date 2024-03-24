@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 # from pytube import YouTube
-# from audioDetection import *
+from audioDetection import *
 from texttospeech import extractSpeech
 from textdecypher import textDetection
 import io
@@ -30,7 +30,7 @@ app.add_middleware(
 def home():
     return {"Data": "Test"}
 
-"""
+
 @app.post("/check-audio-deepfake")
 async def check_audio_deepfake(file_upload: UploadFile):
     contents = await file_upload.read()
@@ -48,7 +48,7 @@ async def check_audio_deepfake(file_upload: UploadFile):
     #    video = VideoFileClip(file_upload.filename)
     #    video.audio.write_audiofile("audio_data/donald_trump/fake/output.mp3")
     #    return {"DeepFake": returnAudioScores()[0], "Scores": returnAudioScores[1]}
-"""
+
 @app.post("/check-text-deepfake")
 async def check_text_deepfake(file_upload: UploadFile, name: str=Form(), context: str=Form()):
     contents = await file_upload.read()
