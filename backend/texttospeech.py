@@ -1,3 +1,4 @@
+"""
 from google.cloud import speech
 from moviepy.editor import *
 
@@ -43,4 +44,4 @@ def extractSpeech():
         return all_transcripts
     else:
         return ("No transcripts found in the response.")
-    
+"""

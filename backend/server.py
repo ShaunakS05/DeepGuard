@@ -3,7 +3,7 @@ from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pytube import YouTube
 from audioDetection import *
-from texttospeech import extractSpeech
+# from texttospeech import extractSpeech
 # from textdecypher import textDetection
 import io
 import requests
@@ -45,7 +45,7 @@ async def check_audio_deepfake(mp4video: UploadFile):
   #  response = textDetection(context, text)
    # return {"result": response}
 
-
+"""
 @app.post("/check-visual-deepfake")
 async def check_visual_deepfake(file_upload: UploadFile):
     contents = await file_upload.read()
@@ -58,7 +58,7 @@ async def check_visual_deepfake(file_upload: UploadFile):
     }
     response = requests.request("POST", url, json=payload, headers=headers)
     return response.text
-
+"""
 
 @app.get("/mp4/")
 def get_mp4(youtube_link: str):

@@ -1,4 +1,3 @@
-""""
 from resemblyzer import preprocess_wav, VoiceEncoder
 from demo_utils import *
 from pathlib import Path
@@ -58,7 +57,7 @@ def returnAudioScores():
         return ["DeepFake", scores[speakers == "fake"]]
 
 ## Plot the scores
-
+"""
 fig, _ = plt.subplots(figsize=(6, 6))
 indices = np.arange(len(scores))
 plt.axhline(0.84, ls="dashed", label="Prediction threshold", c="black")
