@@ -1,8 +1,6 @@
 import openai 
 from texttospeech import *
-# OpenAI.api_key = "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"
-# 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
-# client = openai.OpenAI(api_key = "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")
+
 client = openai.OpenAI(api_key = "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")
 
 def textDetection(person, text, context):
@@ -21,9 +19,6 @@ def textDetection(person, text, context):
           {"role": "user", "content": content.format(person=person, text=text)}
       ]
   )
-  print(response.choices[0].message.content)
+  # print(response.choices[0].message.content)
   return(response.choices[0].message.content)
 
-text = extractSpeech("backend/FakeJoeBidenAI.mp4")
-context = "Joe Biden is talkin about the weed he likes to smoke."
-textDetection("Joe Biden", text, context)
