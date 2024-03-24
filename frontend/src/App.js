@@ -24,7 +24,7 @@ function App() {
 
   const endpoint_TTYT = "http://localhost:8000/title/"
   const endpoint_picture = "http://localhost:8000/thumbnail/"
-  const endpoint_mp4 = "http://localhost:8000/mp4/"
+  const endpoint_down = "http://localhost:8000/download-youtube/"
 
   const[vis, setVis] = useState(null);
   const[file, setFile] = useState(null);
@@ -71,9 +71,9 @@ function App() {
     {
       try {
         const formData = new FormData();
-        formData.append("ytlink", ytLink);
+        formData.append("url", ytLink);
 
-        const response = await fetch(endpoint_mp4, {
+        const response = await fetch(endpoint_down, {
             method: "POST",
             body: formData,
         });
@@ -81,7 +81,14 @@ function App() {
         if (!response.ok) {
             throw new Error(`Failed to fetch thumbnail data: ${response.status}`);
         }
-        setFile(response)
+        const blob = await response.blob();
+
+            // Convert the blob to a File object
+        const filename = "downloadedVideo.mp4"; // Specify a filename for the File object
+        const file = new File([blob], filename, { type: "video/mp4" });
+
+            // Use setFile to update your state with the new File object
+        setFile(file);
 
     } catch (error) {
         console.error("Error fetching thumbnail:", error);
@@ -241,7 +248,7 @@ function App() {
         }
 
         const thumbnailUrl = await response.text(); // Assuming the response is plain text
-        setYtImage(thumbnailUrl); // Update your state with the thumbnail URL
+        setYtImage(thumbnailUrl.replaceAll('"','')); // Update your state with the thumbnail URL
     } catch (error) {
         console.error("Error fetching thumbnail:", error);
     }
@@ -335,7 +342,7 @@ function App() {
     backgroundColor: 'white',
     // Other styling for the box
   }}>
-    {ytImage && <img src={ytImage} alt="thumbnail" ></img>}
+    {ytImage && <img style={{height:'90px', width:'160px'}}src={ytImage} alt="thumbnail" ></img>}
      <div className="upload-section">
         <h1>Upload File</h1>
         <div {...getRootProps()} className="dropzone">
@@ -444,7 +451,7 @@ function App() {
 
  <div style={{
         position: 'absolute',
-        left: '19=00px', // Adjust this for centering based on the actual layout needs
+        left: '2000px', // Adjust this for centering based on the actual layout needs
         top: '50%',
         transform: 'translate(-50%, -50%)',
         width: '600px',
