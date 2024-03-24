@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
-# from pytube import YouTube
+from pytube import YouTube
 from audioDetection import *
 from texttospeech import extractSpeech
 from textdecypher import textDetection
@@ -10,6 +10,8 @@ import requests
 import base64
 from moviepy.editor import *
 import json
+import tempfile
+from fastapi.responses import FileResponse
 
 
 app = FastAPI()
@@ -75,6 +77,18 @@ async def check_visual_deepfake(file_upload: UploadFile):
     return response.text
 
 
+@app.post("/download-youtube/")
+async def download_youtube_vid(url: str):
+    yt = YouTube(url)
+    video = yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
+    if video is None:
+        raise HTTPException(status_code=404, detail="Could not find a downloadable video stream")
+    
+    temp_dir = tempfile.mkdtemp()
+    video_file = video.download(output_path=temp_dir)
+
+    return FileResponse(path=video_file, media_type='video/mp4', filename=os.path.basename(video_file))
+"""
 @app.get("/mp4/")
 def get_mp4(youtube_link: str):
     # Instantiate a YouTube object using the provided link
@@ -98,6 +112,7 @@ def get_mp4(youtube_link: str):
 
     # Return streaming response
     return StreamingResponse(iter_video(), media_type="video/mp4")
+"""
 
 # Curl Command to Download video to your local directory:
 # curl -o downloaded_video.mp4 "http://127.0.0.1:8000/mp4/?youtube_link=https://www.youtube.com/shorts/jcNzoONhrmE"
