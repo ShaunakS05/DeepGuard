@@ -15,12 +15,16 @@ import PieChartWithText from './PieChartWithText';
 
 function App() {
 
+
+  const [isLoading, setIsLoading] = useState(true);
+
   const endpoint_Visual = "http://localhost:8000/check-visual-deepfake"
   const endpoint_Audio = "http://localhost:8000/check-audio-deepfake"
   const endpoint_Text = "http://localhost:8000/check-text-deepfake" 
 
   const endpoint_TTYT = "http://localhost:8000/title/"
   const endpoint_picture = "http://localhost:8000/thumbnail/"
+  const endpoint_mp4 = "http://localhost:8000/mp4/"
 
   const[vis, setVis] = useState(null);
   const[file, setFile] = useState(null);
@@ -58,11 +62,33 @@ function App() {
   }
 
   const handleDetect = async (event) => {
+    setIsLoading(true);
     setIsChecke1d(true);
     event.preventDefault();
     gsap.to(".Moving", {duration: 1, x: -400}); // Adjust duration and x as needed
-    gsap.to(".leftMove", {duration: 1, x: -700}); // Adjust duration and x as needed
+    gsap.to(".leftMove", {duration: 1, x: -800}); // Adjust duration and x as needed
+    if(useYoutube)
+    {
+      try {
+        const formData = new FormData();
+        formData.append("ytlink", ytLink);
 
+        const response = await fetch(endpoint_mp4, {
+            method: "POST",
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch thumbnail data: ${response.status}`);
+        }
+        setFile(response)
+
+    } catch (error) {
+        console.error("Error fetching thumbnail:", error);
+    }
+      
+      
+    }
 
 
     if(useVisual)
@@ -172,76 +198,10 @@ function App() {
         {
           console.error(error);
         }}
-    if(useYoutube)
-    {
-      
-        const YTData = new FormData();
-        YTData.append('youtube_link', ytLink);
-        try {
+
+    setIsLoading(false);
     
-          const response = await fetch(endpoint_TTYT, {
-            method: "POST",
-            body: YTData
-          });
-      
-          // Check if the response status is OK (200)
-          if (response.ok) {
-            // Try to parse the response as JSON
-
-            const response_data = await response.json();
-            console.log(response_data)
-            setYTtitle(response_data);
-
-            const outputObject = JSON.parse(response_data)
-            const resultValue = outputObject.Title
-            console.log(response)
-            console.log("Success YIPPEEE" + response_data)
-            console.log("Success YIPPEEE" + resultValue)
-            // Now you can use the response data as needed
-          } else {
-            // If response status is not OK, throw an error
-            throw new Error('Failed tozsasd fetch data');
-          }
-            
-        }
-        catch(error)
-        {
-          console.error(error);
-        }
-        try {
     
-          const response = await fetch(endpoint_picture, {
-            method: "POST",
-            body: YTData
-          });
-      
-          // Check if the response status is OK (200)
-          if (response.ok) {
-            // Try to parse the response as JSON
-
-            const response_data = await response.json();
-            console.log(response_data)
-            setYtImage(response_data);
-
-
-            const outputObject = JSON.parse(response_data)
-            const resultValue = outputObject.Title
-            console.log(response)
-            console.log("Success YIPPEEE" + response_data)
-            console.log("Success YIPPEEE" + resultValue)
-            // Now you can use the response data as needed
-          } else {
-            // If response status is not OK, throw an error
-            throw new Error('Failed tozsasd fetch data');
-          }
-            
-        }
-        catch(error)
-        {
-          console.error(error);
-        }
-      
-    }
   }
   
   const handleClick = () => {
@@ -263,9 +223,33 @@ function App() {
   const handleText = () => {
     setText(!useText);
   };
-  const handleTextYT = (event) => {
-    setYTlink(event.target.value);
-  };
+  const handleTextYT = async (event) => {
+    const ytLink = event.target.value;
+    setYTlink(ytLink); // Assuming this sets the state for the YouTube link
+
+    try {
+        const formData = new FormData();
+        formData.append("ytlink", ytLink);
+
+        const response = await fetch(endpoint_picture, {
+            method: "POST",
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch thumbnail data: ${response.status}`);
+        }
+
+        const thumbnailUrl = await response.text(); // Assuming the response is plain text
+        setYtImage(thumbnailUrl); // Update your state with the thumbnail URL
+    } catch (error) {
+        console.error("Error fetching thumbnail:", error);
+    }
+};
+
+   
+    
+  
   const handleYTCheck = () => {
     setYoutubeCheck(!useYoutube)
   };
@@ -329,7 +313,8 @@ function App() {
         </div>           
       </div>
 
-      
+      <h1>{ytImage}</h1>
+
       
       <div style={{
   position: 'relative',
@@ -350,6 +335,7 @@ function App() {
     backgroundColor: 'white',
     // Other styling for the box
   }}>
+    {ytImage && <img src={ytImage} alt="thumbnail" ></img>}
      <div className="upload-section">
         <h1>Upload File</h1>
         <div {...getRootProps()} className="dropzone">
@@ -439,10 +425,9 @@ function App() {
       </label>
       {visualData && <h2>{visualData}</h2>}
       {isChecke1d && <h2>yes</h2>}
-      <h1>{ytLink}</h1>
-      <h1>{ytTitle}</h1>
+      <h1>{ytImage}</h1>
+      <h1></h1>
   </div>
-
 
   <Button className="coolBlueButton" onClick={handleDetect} 
       style={{position: 'absolute',
@@ -456,28 +441,66 @@ function App() {
 
 
  </div>
+
  <div style={{
-    position: 'absolute',
-    left: 'calc(33.33% - 200px)', // Moves the box to the left third and then 50px to the left
-    top: '50%', // Adjust as needed
-    left: "1550px",
-    transform: 'translateY(-50%)', // Centers the box vertically
-    width: '600px', // Your box width
-    height: '600px', // Your box height
-    borderRadius: '40px',
-    backgroundColor: 'white',
-  }} className='leftMove'>
-    <h1>Detection Results</h1>
-    <h4>Text Explanation: {Text_explanation1}</h4>
-    <h4>Text Score: {text_score1}</h4>
-    <h4>Video Result: {visualData}</h4>
-    <h4>Voice Result: {audioData_DeepFake}</h4>
-    <h4>Voice Score: {audioData_Score}</h4>
+        position: 'absolute',
+        left: '19=00px', // Adjust this for centering based on the actual layout needs
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '600px',
+        height: '600px',
+        borderRadius: '40px',
+        backgroundColor: 'white',
+        padding: '20px',
+        boxSizing: 'border-box',
+        boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        overflow: 'hidden',
+      }} className='leftMove'>
 
+        {isLoading ? (
+          <div className="loading-overlay">
+              <p>Loading...</p>
+              {/* Or replace the above with a spinner or any custom loading component */}
+          </div>
+        ) : (
+          <>
+            <h1>Detection Results</h1>
+            <div>
+              <div style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                  width: '100%',
+                  margin: '20px 0',
+                  position: 'relative',
+                  top: '-40%'
+                }}>
+                <PieChartWithText text={"Text Score"} score={text_score1}></PieChartWithText>
+                <PieChartWithText text={"Visual Data"} score={visualData}></PieChartWithText>
+                <PieChartWithText text={"Audio Data"} score={audioData_Score}></PieChartWithText>
+              </div>
+              <div style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                  width: '100%',
+                  margin: '20px 0',
+                  position: 'relative',
+                  top: '-25%',
+                  right: '35%'
+                }}>
+                <h4>Text Explanation: {Text_explanation1}</h4>
+              </div>
+            </div>
+          </>
+        )}
+    </div>
+  );
 
-
-
-  </div>
 </div>
 
 

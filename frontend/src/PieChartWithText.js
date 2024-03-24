@@ -7,15 +7,32 @@ Chart.register(ArcElement, PieController);
 
 const PieChartWithText = ({ score, text }) => {
   // Calculate the unfilled portion
-  const unfilled = 100 - score;
+  const unfilled = 1 - score;
 
+
+  
   let color;
-  if (score > 75) {
-    color = 'green'; // Green for scores greater than 75
-  } else if (score > 30) {
-    color = 'orange'; // Orange for scores between 31 and 75
-  } else {
-    color = 'red'; // Red for scores 30 or below
+
+  if(text == "Visual Data")
+  {
+        if(score == "real")
+        {
+            score = 1;
+        }
+        else
+        {
+            score = 0;
+        }
+  }
+  else
+  {
+    if (score > 75) {
+        color = 'green'; // Green for scores greater than 75
+      } else if (score > 30) {
+        color = 'orange'; // Orange for scores between 31 and 75
+      } else {
+        color = 'red'; // Red for scores 30 or below
+      }
   }
   const data = {
     labels: ['Score', 'Remaining'],
@@ -42,7 +59,7 @@ const PieChartWithText = ({ score, text }) => {
     elements: {
       center: {
         text: `${score}%`, // Dynamic text
-        color: '#FF6384', // Text color
+        color: "black",
         fontStyle: 'Arial', // Font style
         sidePadding: 5, // Padding
         
@@ -50,9 +67,9 @@ const PieChartWithText = ({ score, text }) => {
     },
   };
 
-  return<div style={{ width: '150px', height: '150px' }}>
-    <span style={{position: 'relative', top:'50px', left:'36px', color:'white', textAlign:'center'}}>{text}</span>
-    <span style={{position: 'relative', top:'70px', left:'14px', color:'white', textAlign:'center'}}>{score}</span>
+  return<div style={{ width: '170px', height: 'px' }}>
+    <span style={{position: 'relative', top:'70px', left:'49px', color:'black', textAlign:'center'}}>{text}</span>
+    <span style={{position: 'relative', top:'120px', left:'-3px', color:'black', textAlign:'center', fontSize:'30px'}}>{score}</span>
 
   <Doughnut data={data} options={options} />
 </div>
