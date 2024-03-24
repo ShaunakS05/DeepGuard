@@ -98,14 +98,15 @@ def get_mp4(youtube_link: str):
 # curl -o downloaded_video.mp4 "http://127.0.0.1:8000/mp4/?youtube_link=https://www.youtube.com/shorts/jcNzoONhrmE"
 
 @app.post("/title/")
-def get_thumbnail_and_title(youtube_link: str="https://www.youtube.com/shorts/jcNzoONhrmE"):
+def get_thumbnail_and_title(youtube_link: str):
     # Instantiate a YouTube object using the provided link
     yt = YouTube(youtube_link)
 
     # Return streaming response
     return yt.title
+
 @app.post("/thumbnail/")
-def get_thumbnail_and_title(youtube_link: str="https://www.youtube.com/shorts/jcNzoONhrmE"):
+def get_thumbnail_and_title(youtube_link: str):
     # Instantiate a YouTube object using the provided link
     yt = YouTube(youtube_link)
 
