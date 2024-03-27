@@ -3,7 +3,7 @@
 import openai 
 from texttospeech import *
 
-client = openai.OpenAI(api_key = "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")
+client = openai.OpenAI(api_key = "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")
 
 def textDetection(person, text, context):
 

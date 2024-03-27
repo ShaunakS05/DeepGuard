@@ -26,13 +26,13 @@ const PieChartWithText = ({ score, text }) => {
   }
   else
   {
-    if (score > 75) {
-        color = 'green'; // Green for scores greater than 75
-      } else if (score > 30) {
-        color = 'orange'; // Orange for scores between 31 and 75
-      } else {
-        color = 'red'; // Red for scores 30 or below
-      }
+    if (score > 0.75) {
+      color = 'green'; // Green for scores greater than 75
+    } else if (score > .30) {
+      color = 'orange'; // Orange for scores between 31 and 75
+    } else {
+      color = 'red'; // Red for scores 30 or below
+    }
   }
   const data = {
     labels: ['Score', 'Remaining'],
@@ -66,10 +66,10 @@ const PieChartWithText = ({ score, text }) => {
       },
     },
   };
-
+  
   return<div style={{ width: '170px', height: 'px' }}>
     <span style={{position: 'relative', top:'70px', left:'49px', color:'black', textAlign:'center'}}>{text}</span>
-    <span style={{position: 'relative', top:'120px', left:'-3px', color:'black', textAlign:'center', fontSize:'30px'}}>{score}</span>
+    <span style={{position: 'relative', top:'120px', left:'-17px', color:'black', textAlign:'center', fontSize:'30px'}}>{score}</span>
 
   <Doughnut data={data} options={options} />
 </div>

@@ -70,7 +70,7 @@ async def check_visual_deepfake(file_upload: UploadFile):
     base64_data = base64.b64encode(contents).decode("utf-8")
     payload = {"doc_base64": str(base64_data), "req_id": "Detecting_Deepfake", "isIOS": False, "doc_type": "video", "orientation": 0, }
     headers = {
-        'token': 'ca71aacdf4336e93a12db5e41bd5a91d',
+        'token': '9b75aacdf2316a96f22eb2b31dd8fb4e',
         'content-type': 'application/json'
     }
     response = requests.request("POST", url, json=payload, headers=headers)
@@ -78,16 +78,18 @@ async def check_visual_deepfake(file_upload: UploadFile):
 
 
 @app.post("/download-youtube/")
-async def download_youtube_vid(url: str):
+async def download_youtube_vid(url: str=Form()):
+    SAVE_DIR = "storeTemp"
     yt = YouTube(url)
     video = yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
     if video is None:
         raise HTTPException(status_code=404, detail="Could not find a downloadable video stream")
     
-    temp_dir = tempfile.mkdtemp()
-    video_file = video.download(output_path=temp_dir)
+    os.makedirs(SAVE_DIR, exist_ok=True)
 
-    return FileResponse(path=video_file, media_type='video/mp4', filename=os.path.basename(video_file))
+    video_file = video.download(output_path=SAVE_DIR)
+
+    return {"message": "Video downloaded successfully", "file_path": video_file}
 """
 @app.get("/mp4/")
 def get_mp4(youtube_link: str):
@@ -126,9 +128,9 @@ def get_thumbnail_and_title(youtube_link: str):
     return yt.title
 
 @app.post("/thumbnail/")
-def get_thumbnail_and_title(youtube_link: str):
+def get_thumbnail_and_title(ytlink: str=Form()):
     # Instantiate a YouTube object using the provided link
-    yt = YouTube(youtube_link)
+    yt = YouTube(ytlink)
 
     # Return streaming response
     return yt.thumbnail_url

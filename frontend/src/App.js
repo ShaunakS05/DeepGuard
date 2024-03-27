@@ -9,6 +9,9 @@ import FileForm from './Componets/FileForm';
 import SplitTextJS from 'split-text-js';
 import Button from 'react-bootstrap/Button';
 import PieChartWithText from './PieChartWithText';
+import PieChartWithTextCopy from './PieChartWithText_copy';
+import PieChartWithText1 from './PieChartWithText copy 2';
+
 
 
 
@@ -66,7 +69,7 @@ function App() {
     setIsChecke1d(true);
     event.preventDefault();
     gsap.to(".Moving", {duration: 1, x: -400}); // Adjust duration and x as needed
-    gsap.to(".leftMove", {duration: 1, x: -800}); // Adjust duration and x as needed
+    gsap.to(".leftMove", {duration: 1, x: -900}); // Adjust duration and x as needed
     if(useYoutube)
     {
       try {
@@ -81,11 +84,9 @@ function App() {
         if (!response.ok) {
             throw new Error(`Failed to fetch thumbnail data: ${response.status}`);
         }
-        const blob = await response.blob();
-
-            // Convert the blob to a File object
-        const filename = "downloadedVideo.mp4"; // Specify a filename for the File object
-        const file = new File([blob], filename, { type: "video/mp4" });
+        const response_data = await response.json()
+        console.log(response_data.file_path)
+        const file = response_data.file_path
 
             // Use setFile to update your state with the new File object
         setFile(file);
@@ -117,7 +118,7 @@ function App() {
           const resultValue = outputObject.result
           console.log(response)
           console.log("Success YIPPEEE" + response_data)
-          console.log("Success YIPPEEE" + resultValue)
+          console.log("This is the visual result value: " + resultValue)
           // Now you can use the response data as needed
           setVisData(resultValue);
         } else {
@@ -154,8 +155,10 @@ function App() {
           const confidenceScore = outputObject.numerical_answer
           const explanation2 = outputObject.explanation
 
+          const num = confidenceScore/5;
+
           setTextExplanation(explanation2);
-          setTextScore(confidenceScore);
+          setTextScore(num.toFixed(2));
           console.log(response)
           console.log("Success YIPPEEE" + confidenceScore)
           console.log("Success YIPPEEE")
@@ -191,7 +194,7 @@ function App() {
             const score = response_data.Scores[0];
             const deepFakeAud = response_data.DeepFake;
             setAudData_Deepfake(deepFakeAud);
-            setAudData_Score(score);
+            setAudData_Score(score.toFixed(2));
             console.log("Deepfake?" + deepFakeAud)
             console.log("Score: " + score)
             // Now you can use the response data as needed
@@ -352,7 +355,7 @@ function App() {
               <span>Drop the files here ...</span> :
               <div>Drag and Drop</div>
           }
-                  {file && <p>File selected: {file.name}</p>}
+                  {file && <span>File selected: {file.name}</span>}
 
         </div>
         </div>
@@ -431,7 +434,6 @@ function App() {
         {isChecked ? 'Use Youtube' : 'Use Youtube'}
       </label>
       {visualData && <h2>{visualData}</h2>}
-      {isChecke1d && <h2>yes</h2>}
       <h1>{ytImage}</h1>
       <h1></h1>
   </div>
@@ -451,10 +453,10 @@ function App() {
 
  <div style={{
         position: 'absolute',
-        left: '2000px', // Adjust this for centering based on the actual layout needs
+        left: '2100px', // Adjust this for centering based on the actual layout needs
         top: '50%',
         transform: 'translate(-50%, -50%)',
-        width: '600px',
+        width: '800px',
         height: '600px',
         borderRadius: '40px',
         backgroundColor: 'white',
@@ -467,27 +469,31 @@ function App() {
         justifyContent: 'space-around',
         overflow: 'hidden',
       }} className='leftMove'>
+                  <h1>{visualData}</h1>
 
         {isLoading ? (
           <div className="loading-overlay">
-              <p>Loading...</p>
+              <p style={{position:'absolute', top:'220px'}}>Loading...</p>
               {/* Or replace the above with a spinner or any custom loading component */}
           </div>
         ) : (
           <>
-            <h1>Detection Results</h1>
+
             <div>
+              <h1 style={{textAlign:'center'}}>Detection Results</h1>
               <div style={{
                   display: 'flex',
                   flexDirection: 'row',
-                  justifyContent: 'space-around',
+                  justifyContent: 'space-between',
                   width: '100%',
                   margin: '20px 0',
                   position: 'relative',
-                  top: '-40%'
+                  rowGap: '10px',
+                  top: '-10%',
+                  padding: '5px'
                 }}>
-                <PieChartWithText text={"Text Score"} score={text_score1}></PieChartWithText>
-                <PieChartWithText text={"Visual Data"} score={visualData}></PieChartWithText>
+                <PieChartWithText1 text={"Text Score"} score={text_score1}></PieChartWithText1>
+                <PieChartWithTextCopy text={"Visual Data"} style={{position:'absolute', top:'100px'}} real={visualData}></PieChartWithTextCopy>
                 <PieChartWithText text={"Audio Data"} score={audioData_Score}></PieChartWithText>
               </div>
               <div style={{
@@ -497,8 +503,8 @@ function App() {
                   width: '100%',
                   margin: '20px 0',
                   position: 'relative',
-                  top: '-25%',
-                  right: '35%'
+                  top: '-5%',
+                  right: '0%'
                 }}>
                 <h4>Text Explanation: {Text_explanation1}</h4>
               </div>
