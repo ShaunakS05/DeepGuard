@@ -2,8 +2,6 @@
 
 ## We built out a novel agent framework to detect deepfakes, aritifical voice generation and falsified speech by creating a multimodal approach which utilized Video, Audio and Text extraction combined with the lastest AI frameworks. 
 
-We analyze over 60,000 articles (scraping an additional 20+ every single minute) and cluster algorithms using a novel topic relationship model using embedding relationships and a Union-Find structure for relationships. We then build out key features off of this foundation to change the way people interact with news with the goal of preventing spread of misinformation, falling into echo chambers or extreme polarization. Some cool key features include:
-
 In the age of Social Media, deepfakes have become widely prevalent and more and more realistic. Our custom application, DeepGuard, built off a Novel Detection Framework, allows users to input a deepfake video and then takes a multimodal approach to accurately detect false video, speech or audio within the video and inform users. Unlike many current day detection algorithms, DeepFake is the first of its kind to be able to parse through the audio, video and speech of a video rathering than focusing on one of the three, making it more accurate and adaptable. Some cool key features include:
 
 * Video Input: Users can choose any deepfake as long as it comes in MP4 format
