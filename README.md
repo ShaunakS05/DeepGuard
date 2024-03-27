@@ -1,4 +1,4 @@
-# Synthesis: A Cutom Built Novel Detection Framework for Combating Deepfakes, Voice Spoofing and Speech Deciphering.
+# DeepGuard: A Cutom Built Novel Detection Framework for Combating Deepfakes, Voice Spoofing and Speech Deciphering.
 
 ## We built out a novel agent framework to detect deepfakes, aritifical voice generation and falsified speech by creating a multimodal approach which utilized Video, Audio and Text extraction combined with the lastest AI frameworks. 
 
