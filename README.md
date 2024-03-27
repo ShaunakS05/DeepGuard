@@ -14,6 +14,6 @@ We analyze over 60,000 articles (scraping an additional 20+ every single minute)
 * Extensions: Question and answering, content explanations
 * Rich Extraction: High-fidelity data for visuals and tooling
 
-![agent-flow-chart](flowchart.png)
+![agent-flow-chart](Flowchart.png)
 
 Built by Christopher Arraya, Ron Nachum, & Pranav Ramesh.
