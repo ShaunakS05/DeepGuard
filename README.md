@@ -1,6 +1,6 @@
 # DeepGuard: A Cutom Built Novel Detection Framework for Combating Deepfakes, Voice Spoofing and Speech Deciphering.
 
-## We built out a novel agent framework to detect deepfakes, aritifical voice generation and falsified speech by creating a multimodal approach which utilized Video, Audio and Text extraction combined with the lastest AI frameworks. 
+## We built out a novel agent framework to detect deepfakes, artifical voice generation and falsified speech by creating a multimodal approach which utilized Video, Audio and Text extraction combined with the latest AI frameworks. 
 
 In the age of Social Media, deepfakes have become widely prevalent and more and more realistic. Our custom application, DeepGuard, built off a Novel Detection Framework, allows users to input a deepfake video and then takes a multimodal approach to accurately detect false video, speech or audio within the video and inform users. Unlike many current day detection algorithms, DeepFake is the first of its kind to be able to parse through the audio, video and speech of a video rathering than focusing on one of the three, making it more accurate and adaptable. Some cool key features include:
 
